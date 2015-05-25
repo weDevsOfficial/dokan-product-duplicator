@@ -66,6 +66,8 @@ class Dokan_Duplicate_Product {
         // Loads frontend scripts and styles
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
+        add_filter( 'dokan_settings_fields', array( $this, 'dokan_duplicate_product_button_text' ) );
+
         add_action( 'woocommerce_single_product_summary', array( $this, 'add_to_my_product_button' ), 100 );
         add_filter( 'woocommerce_duplicate_product_capability', array( $this, 'add_duplicate_capability' ) );
         add_action( 'template_redirect', array( $this, 'product_clone_redirect' ) );
@@ -148,6 +150,25 @@ class Dokan_Duplicate_Product {
     }
 
     /**
+     * Check if a user is seller
+     *
+     * @param array $settings_fields
+     * @return array
+     */
+    public function dokan_duplicate_product_button_text( $settings_fields ) {
+        $settings_fields['dokan_selling']['duplicate_button_txt'] = array(
+                'name'    => 'duplicate_button_txt',
+                'label'   => __( 'Duplicate Button Text', 'dokan' ),
+                'desc'    => __( 'Product duplicate button text on single product page', 'dokan' ),
+                'type'    => 'select',
+                'default' => 'Add To My Store',
+                'type'    => 'text',
+            );
+
+        return $settings_fields;
+    }
+
+    /**
      * Set Product Duplication Button 
      */
     public function add_to_my_product_button() {
@@ -158,7 +179,7 @@ class Dokan_Duplicate_Product {
             <form method="post">
             <div class="dokan-form-group">
                 <?php wp_nonce_field( 'dokan_duplicate_product', 'dokan_duplicate_product_nonce' ); ?>
-                <input type="submit" name="add_to_my_store" id="add_to_my_store" class="single_add_to_cart_button button alt" value="<?php esc_attr_e( 'Add To My Store', 'dokan' ); ?>"/>
+                <input type="submit" name="add_to_my_store" id="add_to_my_store" class="single_add_to_cart_button button alt" value="<?php echo dokan_get_option( 'duplicate_button_txt', 'dokan_selling', 'Add To My Store' ); ?>"/>
             </div>
             </form>
             <?php
@@ -194,7 +215,7 @@ class Dokan_Duplicate_Product {
             $wo_dup = new WC_Admin_Duplicate_Product();
 
             $clone_product_id =  $wo_dup->duplicate_product( $post );  
-                 
+
             wp_redirect( dokan_edit_product_url( $clone_product_id ) );
             exit;
         }
