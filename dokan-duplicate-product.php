@@ -1,7 +1,7 @@
 <?php
 /*
-Plugin Name: Dokan Duplicate Product
-Plugin URI: http://wedevs.com
+Plugin Name: Dokan - Duplicate Product
+Plugin URI: https://wedevs.com/products/dokan/product-duplicator/ ‎
 Description: Product Duplicate add-on for Dokan
 Version: 0.1
 Author:  weDevs
@@ -10,7 +10,7 @@ License: GPL2
 */
 
 /**
- * Copyright (c) YEAR Your Name (email: Email). All rights reserved.
+ * Copyright (c) 2015 weDevs (email: info@wedevs.com). All rights reserved.
  *
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
@@ -57,14 +57,9 @@ class Dokan_Duplicate_Product {
      * @uses add_action()
      */
     public function __construct() {
-        register_activation_hook( __FILE__, array( $this, 'activate' ) );
-        register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
 
         // Localize our plugin
         add_action( 'init', array( $this, 'localization_setup' ) );
-
-        // Loads frontend scripts and styles
-        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
         add_filter( 'dokan_settings_fields', array( $this, 'dokan_duplicate_product_button_text' ) );
 
@@ -91,62 +86,12 @@ class Dokan_Duplicate_Product {
     }
 
     /**
-     * Placeholder for activation function
-     *
-     * Nothing being called here yet.
-     */
-    public function activate() {
-
-    }
-
-    /**
-     * Placeholder for deactivation function
-     *
-     * Nothing being called here yet.
-     */
-    public function deactivate() {
-
-    }
-
-    /**
      * Initialize plugin for localization
      *
      * @uses load_plugin_textdomain()
      */
     public function localization_setup() {
         load_plugin_textdomain( 'dokan_duplicate_product', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-    }
-
-    /**
-     * Enqueue admin scripts
-     *
-     * Allows plugin assets to be loaded.
-     *
-     * @uses wp_enqueue_script()
-     * @uses wp_localize_script()
-     * @uses wp_enqueue_style
-     */
-    public function enqueue_scripts() {
-
-        /**
-         * All styles goes here
-         */
-        wp_enqueue_style( 'dokan_duplicate_product-styles', plugins_url( 'assets/css/style.css', __FILE__ ), false, date( 'Ymd' ) );
-
-        /**
-         * All scripts goes here
-         */
-        wp_enqueue_script( 'dokan_duplicate_product-scripts', plugins_url( 'assets/js/script.js', __FILE__ ), array( 'jquery' ), false, true );
-
-
-        /**
-         * Example for setting up text strings from Javascript files for localization
-         *
-         * Uncomment line below and replace with proper localization variables.
-         */
-        // $translation_array = array( 'some_string' => __( 'Some string to translate', 'dokan_duplicate_product' ), 'a_value' => '10' );
-        // wp_localize_script( 'dokan_duplicate_product-scripts', 'dokan_duplicate_product', $translation_array ) );
-
     }
 
     /**
@@ -169,18 +114,22 @@ class Dokan_Duplicate_Product {
     }
 
     /**
-     * Set Product Duplication Button 
+     * Set Product Duplication Button
      */
     public function add_to_my_product_button() {
-
         global $post;
-        if ( current_user_can( 'dokandar' ) && ( $post->post_author != get_current_user_id() )  ) {       
+
+        if ( current_user_can( 'dokandar' ) && ( $post->post_author != get_current_user_id() ) && dokan_is_seller_enabled( get_current_user_id() )  ) {
             ?>
             <form method="post">
-            <div class="dokan-form-group">
-                <?php wp_nonce_field( 'dokan_duplicate_product', 'dokan_duplicate_product_nonce' ); ?>
-                <input type="submit" name="add_to_my_store" id="add_to_my_store" class="single_add_to_cart_button button alt" value="<?php echo dokan_get_option( 'duplicate_button_txt', 'dokan_selling', 'Add To My Store' ); ?>"/>
-            </div>
+                <div class="dokan-form-group">
+                    <?php wp_nonce_field( 'dokan_duplicate_product', 'dokan_duplicate_product_nonce' ); ?>
+                    <input type="submit" name="add_to_my_store" id="add_to_my_store" class="single_add_to_cart_button button alt" value="<?php echo dokan_get_option( 'duplicate_button_txt', 'dokan_selling', 'Add To My Store' ); ?>"/>
+                </div>
+
+                <style type="text/css">
+                    #add_to_my_store { margin-top:13px; }
+                </style>
             </form>
             <?php
         }
@@ -189,10 +138,12 @@ class Dokan_Duplicate_Product {
 
     /**
      * Manage Product Duplication Capability
-     * @param string 
+     *
+     * @param string
      */
     public function add_duplicate_capability( $role ) {
         $role = 'dokandar';
+
         return $role;
     }
 
@@ -209,12 +160,12 @@ class Dokan_Duplicate_Product {
         }
 
         if ( isset( $_POST['add_to_my_store'] ) && wp_verify_nonce( $_POST['dokan_duplicate_product_nonce'], 'dokan_duplicate_product' ) ) {
-            
+
             global $post;
 
             $wo_dup = new WC_Admin_Duplicate_Product();
 
-            $clone_product_id =  $wo_dup->duplicate_product( $post );  
+            $clone_product_id =  $wo_dup->duplicate_product( $post );
 
             wp_redirect( dokan_edit_product_url( $clone_product_id ) );
             exit;
