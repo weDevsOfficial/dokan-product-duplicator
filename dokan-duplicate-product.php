@@ -169,7 +169,7 @@ class Dokan_Duplicate_Product {
 
             $product_status = dokan_get_new_post_status();
 
-            wp_update_post( 'ID' => $clone_product_id, 'post_status' => $product_status );
+            wp_update_post( array( 'ID' => $clone_product_id, 'post_status' => $product_status ) );
 
             wp_redirect( dokan_edit_product_url( $clone_product_id ) );
             exit;
