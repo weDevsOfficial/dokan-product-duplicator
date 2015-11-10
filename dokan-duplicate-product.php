@@ -131,7 +131,23 @@ class Dokan_Duplicate_Product {
                     #add_to_my_store { margin-top:13px; }
                 </style>
             </form>
-            <?php
+            <?php 
+            if ( class_exists( 'Dokan_Product_Subscription' ) ) {
+                $remaining_product = dps_user_remaining_product( get_current_user_id() );
+                if ( $remaining_product == 0 ) {
+                    if( Dokan_Product_Subscription::is_dokan_plugin() ) {
+                        $permalink = dokan_get_navigation_url('subscription');
+                    } else {
+                        $page_id = dokan_get_option( 'subscription_pack', 'dokan_product_subscription' );
+                        $permalink = get_permalink( $page_id );
+                    }
+                    // $page_id = dokan_get_option( 'subscription_pack', 'dokan_product_subscription' );
+                    $info    = sprintf( __( 'Sorry! You can not add any product. Please <a href="%s">update your package</a>.', 'dps' ), $permalink );
+                    echo "<p class='dokan-info'>" . $info . "</p>";
+                } else {
+                    echo "<p class='dokan-info'>". sprintf( __( 'You can add %d more product(s).', 'dps' ), $remaining_product ) . "</p>";
+                }
+            } 
         }
 
     }
@@ -159,8 +175,19 @@ class Dokan_Duplicate_Product {
             return;
         }
 
+        if ( class_exists( 'Dokan_Product_Subscription' ) ) {
+            if ( ! Dokan_Product_Subscription::can_post_product() ) {
+                return;
+            }
+        } 
+
+        $errors = array();
+
         if ( isset( $_POST['add_to_my_store'] ) && wp_verify_nonce( $_POST['dokan_duplicate_product_nonce'], 'dokan_duplicate_product' ) ) {
 
+            if ( apply_filters( 'dokan_can_add_product', $errors ) ) {
+                return;
+            }
             global $post;
 
             $wo_dup = new WC_Admin_Duplicate_Product();
