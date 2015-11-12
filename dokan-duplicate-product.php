@@ -120,18 +120,7 @@ class Dokan_Duplicate_Product {
         global $post;
 
         if ( current_user_can( 'dokandar' ) && ( $post->post_author != get_current_user_id() ) && dokan_is_seller_enabled( get_current_user_id() )  ) {
-            ?>
-            <form method="post">
-                <div class="dokan-form-group">
-                    <?php wp_nonce_field( 'dokan_duplicate_product', 'dokan_duplicate_product_nonce' ); ?>
-                    <input type="submit" name="add_to_my_store" id="add_to_my_store" class="single_add_to_cart_button button alt" value="<?php echo dokan_get_option( 'duplicate_button_txt', 'dokan_selling', 'Add To My Store' ); ?>"/>
-                </div>
-
-                <style type="text/css">
-                    #add_to_my_store { margin-top:13px; }
-                </style>
-            </form>
-            <?php 
+            
             if ( class_exists( 'Dokan_Product_Subscription' ) ) {
                 $remaining_product = dps_user_remaining_product( get_current_user_id() );
                 if ( $remaining_product == 0 ) {
@@ -145,9 +134,32 @@ class Dokan_Duplicate_Product {
                     $info    = sprintf( __( 'Sorry! You can not add any product. Please <a href="%s">update your package</a>.', 'dps' ), $permalink );
                     echo "<p class='dokan-info'>" . $info . "</p>";
                 } else {
-                    echo "<p class='dokan-info'>". sprintf( __( 'You can add %d more product(s).', 'dps' ), $remaining_product ) . "</p>";
+                    ?>
+                    <form method="post">
+                        <?php echo "<p class='dokan-info'>". sprintf( __( 'You can add %d more product(s).', 'dps' ), $remaining_product ); ?>
+                            
+                            <?php wp_nonce_field( 'dokan_duplicate_product', 'dokan_duplicate_product_nonce' ); ?>
+                            <input type="submit" name="add_to_my_store" id="add_to_my_store" class="single_add_to_cart_button button alt" value="<?php echo dokan_get_option( 'duplicate_button_txt', 'dokan_selling', 'Add To My Store' ); ?>"/>
+                            <style type="text/css">
+                                #add_to_my_store { margin-top:10px; }
+                            </style>
+                        </p>
+                    </form>
+                    <?php
                 }
-            } 
+            } else {
+                ?>
+                <form method="post">
+                    <div class="dokan-form-group">
+                        <?php wp_nonce_field( 'dokan_duplicate_product', 'dokan_duplicate_product_nonce' ); ?>
+                        <input type="submit" name="add_to_my_store" id="add_to_my_store" class="single_add_to_cart_button button alt" value="<?php echo dokan_get_option( 'duplicate_button_txt', 'dokan_selling', 'Add To My Store' ); ?>"/>
+                    </div>
+                    <style type="text/css">
+                        #add_to_my_store { margin-top:10px; }
+                    </style>
+                </form>
+                <?php
+            }
         }
 
     }
