@@ -101,11 +101,17 @@ class Dokan_Duplicate_Product {
      * @return array
      */
     public function dokan_duplicate_product_button_text( $settings_fields ) {
+        $settings_fields['dokan_selling']['product_duplicate_check'] = array(
+                'name'    => 'product_duplicate_check',
+                'label'   => __( 'Allow Product duplicate', 'dokan' ),
+                'desc'    => __( 'Allow vendors to copy other vendors product to their store', 'dokan' ),
+                'type'    => 'checkbox',
+                'default' => 'on',
+            );
         $settings_fields['dokan_selling']['duplicate_button_txt'] = array(
                 'name'    => 'duplicate_button_txt',
                 'label'   => __( 'Duplicate Button Text', 'dokan' ),
                 'desc'    => __( 'Product duplicate button text on single product page', 'dokan' ),
-                'type'    => 'select',
                 'default' => 'Add To My Store',
                 'type'    => 'text',
             );
@@ -119,7 +125,7 @@ class Dokan_Duplicate_Product {
     public function add_to_my_product_button() {
         global $post;
 
-        if ( current_user_can( 'dokandar' ) && ( $post->post_author != get_current_user_id() ) && dokan_is_seller_enabled( get_current_user_id() )  ) {
+        if ( current_user_can( 'dokandar' ) && ( $post->post_author != get_current_user_id() ) && dokan_is_seller_enabled( get_current_user_id() ) && dokan_get_option( 'product_duplicate_check', 'dokan_selling', 'on' ) == 'on' ) {
             
             if ( class_exists( 'Dokan_Product_Subscription' ) ) {
                 $remaining_product = dps_user_remaining_product( get_current_user_id() );
