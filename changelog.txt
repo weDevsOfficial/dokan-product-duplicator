@@ -1,30 +1,15 @@
-v1.5 -> May 3, 2017
------------------------
-- [new] Added support for WooCommerce 3.0.0 +
-- [new] Gallery image support in add and edit product page
-- [new] Tag support in add and edit product page
-- [new] Visibility support in add and edit product page
-- [tweak] New design for add and edit product page
+v0.3 -> Nov 20, 2015
+---------------------
+* Added WooCommerce 3.0+ compatibility
+* Fix product duplication undefined problem
+* Fix localization issues
 
-v1.4 -> December 20, 2016
------------------------
-- [Fix] Date format updated to `yy-mm-dd`
-- [Fix] Typo on text domain
-- [Tweak] The auction feature is enabled by default for everyone. Can be turned off from profile.
-- [Tweak] Stock field is removed
+v0.2 -> Nov 20, 2015
+---------------------
+* Add admin option to  to turn duplicate feature on and off for vendors
+* Make compatible with dokan-subscription plugin
 
-v1.3 -> Jan 3, 2016
------------------------
-- [tweak] Added Auction Re-list option on Front-end
-- [fix] Ajax URL fixed and made compatible with DOKAN latest version
-- [fix] Edit link fixed for auction products on list view
-- [fix] Added Missing text domains
+v0.1 -> June 28, 2015
+---------------------
+* Initial release
 
-
-v1.2 -> September 7, 2015
------------------------
-- [fix] Dirname added and include file error fixed
-
-v1.1 -> July 12, 2015
------------------------
-- Initial Release

@@ -3,7 +3,7 @@
 Plugin Name: Dokan - Duplicate Product
 Plugin URI: https://wedevs.com/products/dokan/product-duplicator/ ‎
 Description: Product Duplicate add-on for Dokan
-Version: 0.1
+Version: 0.3
 Author:  weDevs
 Author URI: http://wedevs.com
 License: GPL2
