@@ -1,5 +1,5 @@
 ===  Dokan Product Duplicator ===
-Contributors: sk.shaikat, tareq1988, weDevs
+Contributors: sk.shaikat, tareq1988, sabbir1991, weDevs
 Tags: duplicate, copy, product, dokan, frontend, WooCommerce, WooCommerce product, WooCommerce product duplicator, Dokan product duplicator,
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=XWBPHY6KV8SPW&lc=US&item_name=Dokan%20Product%20Duplicator&item_number=dpd&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Requires at least: 4.4.1
