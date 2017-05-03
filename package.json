@@ -1,6 +1,6 @@
 {
   "name": "dokan-product-duplicator",
-  "version": "0.1",
+  "version": "0.3.0",
   "description": "Instantly copy a WooCommerce product from a vendor on Dokan powered multivendor marketplace",
   "author": "weDevs",
   "license": "GPL",
