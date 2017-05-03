@@ -125,8 +125,9 @@ class Dokan_Duplicate_Product {
     public function add_to_my_product_button() {
         global $post;
 
+
         if ( current_user_can( 'dokandar' ) && ( $post->post_author != get_current_user_id() ) && dokan_is_seller_enabled( get_current_user_id() ) && dokan_get_option( 'product_duplicate_check', 'dokan_selling', 'on' ) == 'on' ) {
-            
+
             if ( class_exists( 'Dokan_Product_Subscription' ) ) {
                 $remaining_product = dps_user_remaining_product( get_current_user_id() );
                 if ( $remaining_product == 0 ) {
@@ -143,7 +144,7 @@ class Dokan_Duplicate_Product {
                     ?>
                     <form method="post">
                         <?php echo "<p class='dokan-info'>". sprintf( __( 'You can add %d more product(s).', 'dps' ), $remaining_product ); ?>
-                            
+
                             <?php wp_nonce_field( 'dokan_duplicate_product', 'dokan_duplicate_product_nonce' ); ?>
                             <input type="submit" name="add_to_my_store" id="add_to_my_store" class="single_add_to_cart_button button alt" value="<?php echo dokan_get_option( 'duplicate_button_txt', 'dokan_selling', 'Add To My Store' ); ?>"/>
                             <style type="text/css">
@@ -197,7 +198,7 @@ class Dokan_Duplicate_Product {
             if ( ! Dokan_Product_Subscription::can_post_product() ) {
                 return;
             }
-        } 
+        }
 
         $errors = array();
 
@@ -208,13 +209,23 @@ class Dokan_Duplicate_Product {
             }
             global $post;
 
+            if ( ! $post ) {
+                return;
+            }
+
             $wo_dup = new WC_Admin_Duplicate_Product();
 
-            $clone_product_id =  $wo_dup->duplicate_product( $post );
+            if ( version_compare( WC_VERSION, '2.7', '>' ) ) {
+                $product = wc_get_product( $post->ID );
+                $clone_product =  $wo_dup->product_duplicate( $product );
+                $clone_product_id =  $clone_product->get_id();
+            } else {
+                $clone_product_id =  $wo_dup->duplicate_product( $post );
+            }
 
             $product_status = dokan_get_new_post_status();
 
-            wp_update_post( array( 'ID' => $clone_product_id, 'post_status' => $product_status ) );
+            wp_update_post( array( 'ID' => intval( $clone_product_id ), 'post_status' => $product_status ) );
 
             wp_redirect( dokan_edit_product_url( $clone_product_id ) );
             exit;
