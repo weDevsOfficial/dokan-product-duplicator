@@ -60,12 +60,35 @@ class Dokan_Duplicate_Product {
 
         // Localize our plugin
         add_action( 'init', array( $this, 'localization_setup' ) );
+        add_action( 'init', array( $this, 'is_dependency_installed' ) );
 
         add_filter( 'dokan_settings_fields', array( $this, 'dokan_duplicate_product_button_text' ) );
 
         add_action( 'woocommerce_single_product_summary', array( $this, 'add_to_my_product_button' ), 100 );
         add_filter( 'woocommerce_duplicate_product_capability', array( $this, 'add_duplicate_capability' ) );
         add_action( 'template_redirect', array( $this, 'product_clone_redirect' ) );
+    }
+    
+    /**
+     * Check if dependency is available
+     * @since 1.0.0
+     */
+    function is_dependency_installed(){
+        if ( !class_exists( 'WeDevs_Dokan' )){
+            add_action( 'admin_notices', array ( $this, 'need_dependency_class' ) );
+        }
+    }
+    
+    /*
+     * print error notice if dependency not active
+     * @since 1.0.0
+     */
+    function need_dependency(){
+        $error = sprintf( __( '<b>Dokan Product Duplicator </b> requires %sDokan plugin%s to be installed & activated!' , 'dokan-product-duplicator' ), '<a target="_blank" href="https://wedevs.com/products/plugins/dokan/">', '</a>' );
+
+        $message = '<div class="error"><p>' . $error . '</p></div>';
+
+        echo $message;
     }
 
     /**
