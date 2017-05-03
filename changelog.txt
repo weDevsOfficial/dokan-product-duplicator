@@ -1,0 +1,15 @@
+v0.3 -> Nov 20, 2015
+---------------------
+* Added WooCommerce 3.0+ compatibility
+* Fix product duplication undefined problem
+* Fix localization issues
+
+v0.2 -> Nov 20, 2015
+---------------------
+* Add admin option to  to turn duplicate feature on and off for vendors
+* Make compatible with dokan-subscription plugin
+
+v0.1 -> June 28, 2015
+---------------------
+* Initial release
+

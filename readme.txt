@@ -1,5 +1,5 @@
 ===  Dokan Product Duplicator ===
-Contributors: sk.shaikat, tareq1988, weDevs
+Contributors: sk.shaikat, tareq1988, sabbir1991, weDevs
 Tags: duplicate, copy, product, dokan, frontend, WooCommerce, WooCommerce product, WooCommerce product duplicator, Dokan product duplicator,
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=XWBPHY6KV8SPW&lc=US&item_name=Dokan%20Product%20Duplicator&item_number=dpd&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Requires at least: 4.4.1
@@ -61,16 +61,21 @@ If you are unable to use any of the methods due to internet connectivity and fil
 
 1. Front end product duplicate button
 2. Back end settings for set button text
- 
+
 
 == Changelog ==
 
-= 0.1 =
-* Initial release
+= 0.3 =
+* Added WooCommerce 3.0+ compatibility
+* Fix product duplication undefined problem
+* Fix localization issues
 
 = 0.2 =
 * Add admin option to  to turn duplicate feature on and off for vendors
 * Make compatible with dokan-subscription plugin
+
+= 0.1 =
+* Initial release
 
 == Frequently Asked Questions ==
 

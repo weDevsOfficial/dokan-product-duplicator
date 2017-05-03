@@ -1,0 +1,17 @@
+{
+  "name": "dokan-product-duplicator",
+  "version": "0.3.0",
+  "description": "Instantly copy a WooCommerce product from a vendor on Dokan powered multivendor marketplace",
+  "author": "weDevs",
+  "license": "GPL",
+  "private": true,
+  "slug" : "dokan-product-duplicator",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-compress": "^1.4.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-wp-i18n": "^1.0.0",
+    "grunt-text-replace": "^0.4.0"
+  }
+}
